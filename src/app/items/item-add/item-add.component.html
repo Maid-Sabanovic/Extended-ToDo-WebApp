@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 ">
+      <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-success mt-3 me-3" type="submit" >Save Item</button>
+            <button class="btn btn-danger mt-3" type="button" (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="xol-xs-12">
+            <div class="form-floating mt-3">
+              <input
+                type="text"
+                class="form-control"
+                id="description"
+                formControlName="description"
+                required
+              />
+              <label for="description">Description</label>
+            </div>
+            <label for="isComplete" class="mt-3">Is Complete</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" id="false" formControlName="isComplete"  [value]="false">
+              <label class="form-check-label" for="false">
+                false
+              </label>
+            </div>
+            <div class="form-check" *ngIf="this.editMode">
+              <input class="form-check-input" type="radio" id="true" formControlName="isComplete"  [value]="true">
+              <label class="form-check-label" for="true">
+                true
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
