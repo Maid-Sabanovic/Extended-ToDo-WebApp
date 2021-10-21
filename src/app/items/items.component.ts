@@ -1,8 +1,4 @@
-import { Component, Injectable, OnInit, EventEmitter } from '@angular/core';
-import { ActivatedRoute, Event, Params, Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Item } from './item.model';
-import { ItemService } from './item.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-items',
@@ -12,7 +8,7 @@ import { ItemService } from './item.service';
 
 export class ItemsComponent implements OnInit {
 
-  constructor(private itemService: ItemService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

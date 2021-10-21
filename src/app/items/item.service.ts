@@ -1,15 +1,15 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { BehaviorSubject, Observable, } from "rxjs";
 import { Item } from "./item.model";
 
-const API = 'https://localhost:44321/api/TodoItems';
+const APIURL = 'https://localhost:44321/api/TodoItems';
 
 @Injectable()
 export class ItemService {
-    //Behaviour Subject trägt den Value der mit allen Komponenten geteilt wird
-    private _itemsSource = new BehaviorSubject([]);
+    //Behaviour Subject hält den Value der mit allen Komponenten geteilt wird
+    private _itemsSource = new BehaviorSubject<Item[]>([]);
 
     //Komponenten subscriben auf currentItems und bekommen dass BehaviorSubject ohne die Funktionalität den Value ändern zu können
     currentItems = this._itemsSource.asObservable();
@@ -24,42 +24,30 @@ export class ItemService {
 
     // Fetch Items von Endpoint und currentItems bekommt das Array
     getItems(): void {
-        this.http.get<Item[]>(API).subscribe(Response => {
+        this.http.get<Item[]>(APIURL).subscribe(Response => {
             this.items = Response;
             this._itemsSource.next(this.items);
         });
 
     }
 
-    getItem(id: number) {
-        this.http.delete<Item>('https://localhost:44321/api/TodoItems' + '/' + id)
-    }
-
-    updateItems(items: Item[]): void {
-
-        //Die next() Methode wird aufgerufen und das Behavior Subject bekommt einen neuen Value
-        this._itemsSource.next(items);
-
-    }
-
     addItem(description: string, isComplete: boolean) {
         var item = { description: description, isComplete: isComplete };
-        this.http.post('https://localhost:44321/api/TodoItems', item)
-            .subscribe(Response => {
-                this.getItems();
-            });
-        this.navigateHome();
-    }
-
-    deleteItem(id: number): void {
-        this.http.delete<Item>('https://localhost:44321/api/TodoItems' + '/' + id).subscribe(Response => {
+        this.http.post(APIURL, item).subscribe(Response => {
             this.getItems();
         });
         this.navigateHome();
     }
 
-    updateItem(id:number, item: Item) {
-        this.http.put<Item>('https://localhost:44321/api/TodoItems' + '/' + id, item).subscribe(Response => {
+    deleteItem(id: number): void {
+        this.http.delete<Item>(APIURL + '/' + id).subscribe(Response => {
+            this.getItems();
+        });
+        this.navigateHome();
+    }
+
+    updateItem(id: number, item: Item) {
+        this.http.put<Item>(APIURL + '/' + id, item).subscribe(Response => {
             this.getItems();
         });
         this.navigateHome();
@@ -68,4 +56,6 @@ export class ItemService {
     navigateHome(): void {
         this.router.navigate([''], { relativeTo: this.route });
     }
+
+    
 }

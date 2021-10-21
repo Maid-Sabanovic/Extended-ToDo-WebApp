@@ -8,7 +8,7 @@ import { Item } from '../../item.model';
 })
 export class ItemComponent implements OnInit {
   @Input()
-  public item!: Item;
+  public item: Item;
 
   constructor() { }
 
