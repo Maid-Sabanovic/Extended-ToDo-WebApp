@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, Event, Params } from '@angular/router';
+import { ActivatedRoute, Router, Params, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Item } from '../item.model';
 import { ItemService } from '../item.service';
@@ -23,6 +23,10 @@ export class ItemAddComponent implements OnInit {
   constructor(private itemService: ItemService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+    this.subscribing();
+  }
+
+  subscribing() {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = +params['id'];
@@ -46,23 +50,27 @@ export class ItemAddComponent implements OnInit {
   }
 
   addItem(item: Item) {
-
     this.itemService.addItem(item.description, item.isComplete);
   }
 
   updateItem(item: Item) {
-    
-    /*this.index = this.currentItems.findIndex((specificItem => specificItem.id === this.id));
-    this.currentItems[this.index] = item;
-    this.itemService.updateItems(this.currentItems);*/
-    this.itemService.updateItem(this.id,item);
+    this.itemService.updateItem(this.id, item);
   }
 
-  ngOnDestroy() {
-    
-    //Unnötig, denn das passiert automatisch und hat keinen Einfluss auf das Verhalten der App
-    this.subscription.unsubscribe();
+  detectRouteChange(): void {
+    this.router.events.subscribe(event => {
 
+      if (event instanceof NavigationStart) {
+        console.log("Navigation Start: " + event);
+        this.subscription.unsubscribe();
+        console.log('ItemEditAndAddRouteChange ' + this.subscription.closed);
+
+        if (event.url == '/todolist/' + this.id) {
+          this.subscribing();
+        }
+      }
+    });
+    
   }
 
   private initForm() {

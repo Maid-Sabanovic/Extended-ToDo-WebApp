@@ -1,7 +1,6 @@
-import { InvokeFunctionExpr } from '@angular/compiler';
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { NavigationStart, Router } from '@angular/router';
+import { interval, Subscription } from 'rxjs';
 import { Item } from '../item.model';
 import { ItemService } from '../item.service';
 
@@ -10,26 +9,47 @@ import { ItemService } from '../item.service';
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.css']
 })
-export class ItemListComponent implements OnInit {
+export class ItemListComponent implements OnInit, OnChanges {
   items: Item[] = [];
   subscription: Subscription = new Subscription;
+  routeSubscription: Subscription = new Subscription;
+  error: string;
 
-  constructor(private route: ActivatedRoute, private router: Router, private itemService: ItemService) { }
+  constructor(private router: Router, private itemService: ItemService) { 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('OnChanges');
+  }
 
   ngOnInit(): void {
-    this.subscription = this.itemService.currentItems.subscribe((items) => {
-      this.items = items;
-    });
+    console.log('List Item Init');
+    this.subscribing();
+    //this.detectRouteChange();
   }
 
   onNewItem() {
     this.router.navigate(['/todolist/new']);
   }
 
-  ngOnDestroy() {
-    //Wird nie erreicht
-    console.log("ngOnDestroy");
-    this.subscription.unsubscribe();
+  subscribing() {
+    this.subscription = this.itemService.currentItems.subscribe((items) => {
+      this.items = items;
+    });
   }
+
+  /*detectRouteChange(): void {
+    this.routeSubscription = this.router.events.subscribe(event => {
+
+      if (event instanceof NavigationStart) {
+        this.subscription.unsubscribe();
+        console.log('ItemListRouteChange ' + this.subscription.closed);
+        
+
+        if (event.url == '/todolist') {
+          this.subscribing();
+        }
+      }
+    });
+  }*/
 
 }
