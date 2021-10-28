@@ -9,7 +9,7 @@ import { ItemService } from '../item.service';
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.css']
 })
-export class ItemListComponent implements OnInit, OnChanges {
+export class ItemListComponent implements OnInit {
   items: Item[] = [];
   subscription: Subscription = new Subscription;
   routeSubscription: Subscription = new Subscription;
@@ -17,12 +17,8 @@ export class ItemListComponent implements OnInit, OnChanges {
 
   constructor(private router: Router, private itemService: ItemService) { 
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('OnChanges');
-  }
 
   ngOnInit(): void {
-    console.log('List Item Init');
     this.subscribing();
     //this.detectRouteChange();
   }
