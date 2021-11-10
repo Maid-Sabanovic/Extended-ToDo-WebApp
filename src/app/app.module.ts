@@ -14,17 +14,19 @@ import { ItemAddComponent } from './items/item-add/item-add.component';
 import { ItemComponent } from './items/item-list/item/item.component';
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
 import { HttpErrorInterceptorService } from './http-error-interceptor.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks'; 
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemsComponent,
-    ItemDetailComponent, 
+    ItemDetailComponent,
     ItemListComponent,
     HeaderComponent,
     ItemAddComponent,
-    ItemComponent
+    ItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,13 @@ import { HttpErrorInterceptorService } from './http-error-interceptor.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxBootstrapConfirmModule
+    NgxBootstrapConfirmModule,
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['https://localhost:44316/api/TodoItems'],
+        sendAccessToken: true
+      }
+    })
   ],
   providers: [ItemService, {
 

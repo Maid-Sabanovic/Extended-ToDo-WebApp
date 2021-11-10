@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { OAuthService } from "angular-oauth2-oidc";
 import { BehaviorSubject, Observable, } from "rxjs";
 import { Item } from "./item.model";
 
-const APIURL = 'https://localhost:44321/api/TodoItems';
+const APIURL = 'https://localhost:44316/api/TodoItems';
 
 @Injectable()
 export class ItemService {
@@ -14,12 +15,12 @@ export class ItemService {
     //Komponenten subscriben auf currentItems und bekommen dass BehaviorSubject ohne die Funktionalität den Value ändern zu können
     currentItems = this._itemsSource.asObservable();
 
-    items: Item[] = []
+    items: Item[] = [];
 
-    constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
+    constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private oauthService: OAuthService) {
 
         //CurrentItems bekommt hier seinen ersten Value
-        this.getItems();
+            this.getItems();
     }
 
     // Fetch Items von Endpoint und currentItems bekommt das Array
@@ -57,5 +58,10 @@ export class ItemService {
         this.router.navigate([''], { relativeTo: this.route });
     }
 
-    
+    getClaims() {
+        let claims: any = this.oauthService.getIdentityClaims();
+        return claims ? claims : null;
+    }
+
+
 }
