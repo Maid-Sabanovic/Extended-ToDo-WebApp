@@ -1,6 +1,7 @@
 import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
+import { MyAuthService } from 'src/app/my-auth.service';
 import { Item } from '../item.model';
 import { ItemService } from '../item.service';
 
@@ -12,15 +13,12 @@ import { ItemService } from '../item.service';
 export class ItemListComponent implements OnInit {
   items: Item[] = [];
   subscription: Subscription = new Subscription;
-  routeSubscription: Subscription = new Subscription;
-  error: string;
 
-  constructor(private router: Router, private itemService: ItemService) { 
+  constructor(private router: Router, private itemService: ItemService, private myAuthService: MyAuthService) { 
   }
 
   ngOnInit(): void {
     this.subscribing();
-    //this.detectRouteChange();
   }
 
   onNewItem() {
@@ -32,20 +30,5 @@ export class ItemListComponent implements OnInit {
       this.items = items;
     });
   }
-
-  /*detectRouteChange(): void {
-    this.routeSubscription = this.router.events.subscribe(event => {
-
-      if (event instanceof NavigationStart) {
-        this.subscription.unsubscribe();
-        console.log('ItemListRouteChange ' + this.subscription.closed);
-        
-
-        if (event.url == '/todolist') {
-          this.subscribing();
-        }
-      }
-    });
-  }*/
 
 }
