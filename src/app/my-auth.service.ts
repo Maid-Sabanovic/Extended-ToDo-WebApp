@@ -40,7 +40,6 @@ export class MyAuthService {
   }
 
   getUser() {
-    this.identityClaim = this.oauthService.getIdentityClaims();
     this.http.get('https://localhost:44316/api/ADInfo/maid.sabanovic@gws.ms', {responseType: 'text'}).subscribe(user => {
       this.user = user;
       this.userSource.next(this.user);
