@@ -55,7 +55,7 @@ export class ItemService {
     }
 
     navigateHome(): void {
-        this.router.navigate([''], { relativeTo: this.route });
+        this.router.navigate(['/todolist'], { relativeTo: this.route });
     }
 
     getClaims() {

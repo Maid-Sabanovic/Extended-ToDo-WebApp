@@ -46,7 +46,7 @@ export class ItemAddComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate([''], { relativeTo: this.route });
+    this.router.navigate(['/todolist'], { relativeTo: this.route });
   }
 
   addItem(item: Item) {
