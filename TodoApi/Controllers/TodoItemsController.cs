@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoApi.Models;
-using TodoApi.Models.DataManager;
 using TodoApi.Models.Repository;
 
 namespace TodoApi.Controllers
@@ -66,7 +62,7 @@ namespace TodoApi.Controllers
 
             try
             {
-                _dataRepository.Update(todoItemToUpdate,todoItem);
+                _dataRepository.Update(todoItemToUpdate, todoItem);
             }
             catch (DbUpdateConcurrencyException) when (!TodoItemExists(id))
             {
@@ -82,21 +78,13 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> CreateTodoItem(TodoItem todoItem)
         {
-            /*var todoItem = new TodoItem
-            {
-                IsComplete = todoItem.IsComplete,
-                Description = todoItem.Description
-            };
 
-            _context.TodoItems.Add(todoItem);
-            await _context.SaveChangesAsync();*/
-
-            if(todoItem == null)
+            if (todoItem == null)
             {
                 return BadRequest("Item is Null");
             }
 
-           _dataRepository.Add(todoItem);
+            _dataRepository.Add(todoItem);
 
             return CreatedAtAction(
                 nameof(GetTodoItem),
@@ -108,7 +96,7 @@ namespace TodoApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodoItem(long id)
         {
-            var todoItem= await _dataRepository.Get(id);
+            var todoItem = await _dataRepository.Get(id);
 
             if (todoItem == null)
             {
