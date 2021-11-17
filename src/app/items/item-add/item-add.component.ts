@@ -57,22 +57,6 @@ export class ItemAddComponent implements OnInit {
     this.itemService.updateItem(this.id, item);
   }
 
-  detectRouteChange(): void {
-    this.router.events.subscribe(event => {
-
-      if (event instanceof NavigationStart) {
-        console.log("Navigation Start: " + event);
-        this.subscription.unsubscribe();
-        console.log('ItemEditAndAddRouteChange ' + this.subscription.closed);
-
-        if (event.url == '/todolist/' + this.id) {
-          this.subscribing();
-        }
-      }
-    });
-    
-  }
-
   private initForm() {
     let itemId;
     let itemDescription;

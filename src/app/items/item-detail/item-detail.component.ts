@@ -18,7 +18,6 @@ export class ItemDetailComponent implements OnInit {
   //Zum Speichern der params[id]
   id: number;
   subscription: Subscription = new Subscription;
-  routeSubscription: Subscription = new Subscription;
 
 
   constructor(private itemService: ItemService, private route: ActivatedRoute, private router: Router, private ngxBootstrapConfirmService: NgxBootstrapConfirmService) {
@@ -27,7 +26,6 @@ export class ItemDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribing();
-    this.detectRouteChange();
   }
 
   onEditItem(): void {
@@ -57,23 +55,6 @@ export class ItemDetailComponent implements OnInit {
         });
       }
     );
-  }
-
-  detectRouteChange(): void {
-    this.routeSubscription = this.router.events.subscribe(event => {
-
-      if (event instanceof NavigationStart) {
-        console.log("Navigation Start: " + event);
-        this.subscription.unsubscribe();
-        console.log('ItemDetailRouteChange ' + this.subscription.closed);
-        
-
-        if (event.url == '/todolist/' + this.id) {
-          this.subscribing();
-          console.log('ItemList Subscribed again')
-        }
-      }
-    });
   }
 
 }
