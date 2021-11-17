@@ -15,7 +15,8 @@ import { ItemComponent } from './items/item-list/item/item.component';
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
 import { HttpErrorInterceptorService } from './http-error-interceptor.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks'; 
+import { MyAuthService } from './my-auth.service';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
     HeaderComponent,
     ItemAddComponent,
     ItemComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,12 +39,12 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
     NgxBootstrapConfirmModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['https://localhost:44316/api/TodoItems'],
+        allowedUrls: ['https://localhost:44316/api/TodoItems', 'https://localhost:44316/api/ADInfo'],
         sendAccessToken: true
       }
     })
   ],
-  providers: [ItemService, {
+  providers: [ItemService, MyAuthService, {
 
     provide: HTTP_INTERCEPTORS,
 
