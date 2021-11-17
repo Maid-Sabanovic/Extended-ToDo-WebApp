@@ -1,0 +1,15 @@
+<div class="container">
+    <div *ngIf="!getClaims()" class="row">
+      <div class="col-md-12">
+        <h1>Melden Sie sich an, um die ToDoApp benutzen zu können.</h1>
+        <button class="btn btn-primary" *ngIf="!getClaims()" (click)="login()">Login</button>
+      </div>
+    </div>
+    <div *ngIf="getClaims()" class="row">
+        <div class="col-md-12">
+            <h1>Sie haben Sich erfolgreich angemeldet.</h1>
+            <h3>Die TodoList kann nun geladen werden.</h3>
+            <button class="btn btn-success" *ngIf="getClaims()" (click)="todolist()">Zur ToDoList</button>
+        </div>
+    </div>
+</div>
