@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace TodoApi
         public static string LastActionRequest { get; set; }
         public static string LastActionParams { get; set; }
 
-        [HttpGet("{upnOrSam}")]
+        [HttpGet("GetFullName/{upnOrSam}")]
         public string GetFullName(string upnOrSam)
         {
 
@@ -39,6 +40,36 @@ namespace TodoApi
 
             }
             return result;
+        }
+
+        [HttpGet("GetUserGroups/{upnOrSam}")]
+        public List<string> GetUserGroups(string upnOrSam)
+        {
+            var response = new HttpResponseMessage();
+            List<string> usergroups = new List<string>();
+            try
+            {
+                
+
+                if (upnOrSam.ToLower().StartsWith("xgws") && upnOrSam.Length == 7)
+                {
+                    usergroups = ADHandler.GetGroups(upnOrSam, ADHandler.SearchType.BySamAccount);
+                }
+                else
+                {
+                    usergroups = ADHandler.GetGroups(upnOrSam, ADHandler.SearchType.ByUpn);
+                }
+
+
+                //response.Content = new ObjectContent<List<string>>(res, new System.Net.Http.Formatting.JsonMediaTypeFormatter(), "application/json");
+            }
+            catch (Exception ex)
+            {
+                /*response.Content = new ObjectContent<Exception>(
+                ex, new System.Net.Http.Formatting.JsonMediaTypeFormatter(), "application/json");*/
+            }
+            return usergroups;
+
         }
     }
 }

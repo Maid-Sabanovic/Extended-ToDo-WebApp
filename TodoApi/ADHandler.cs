@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.DirectoryServices;
 
 namespace TodoApi
@@ -36,6 +37,42 @@ namespace TodoApi
 
             }
         }
+
+        public static List<string> GetGroups(string upnOrSam, SearchType type)
+        {
+            List<string> retList = new List<string>();
+            string ldapPath = "LDAP://gws-muenster";
+            using (DirectoryEntry entry = new DirectoryEntry(ldapPath))
+            {
+                DirectorySearcher mySearcher = GetDirectorySearcher(entry, upnOrSam, type);
+                SearchResultCollection results = mySearcher.FindAll();
+
+                if (results.Count == 0)
+                {
+                    throw new Exception("no user for upn " + upnOrSam + " found.");
+                }
+
+                ResultPropertyValueCollection ValueCollection = results[0].Properties["memberOf"];
+
+                foreach (var value in ValueCollection)
+                {
+                    string tmp = value.ToString().Split(',')[0];
+                    retList.Add(tmp.Split('=')[1].Trim().ToUpper());
+                }
+
+                mySearcher.Dispose();
+                mySearcher = null;
+                results.Dispose();
+                results = null;
+                ValueCollection = null;
+
+
+                return retList;
+
+            }
+        }
+
+
         private static DirectorySearcher GetDirectorySearcher(DirectoryEntry entry, string upnOrSam, SearchType type)
         {
             DirectorySearcher mySearcher = new DirectorySearcher(entry);
