@@ -17,6 +17,8 @@ import { HttpErrorInterceptorService } from './http-error-interceptor.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { MyAuthService } from './my-auth.service';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { AuthGuardService } from './auth-guard.service';
+import { GroupGuardService } from './group-guard.service';
 
 
 @NgModule({
@@ -44,7 +46,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
       }
     })
   ],
-  providers: [ItemService, MyAuthService, {
+  providers: [ItemService, MyAuthService, AuthGuardService, GroupGuardService, {
 
     provide: HTTP_INTERCEPTORS,
 
