@@ -17,7 +17,6 @@ export class MyAuthService {
   userGroups: string[] = [];
   userGroupsSource = new BehaviorSubject<string[]>([]);
   currentUserGroups = this.userGroupsSource.asObservable();
-  
 
   constructor(private oauthService: OAuthService, private http: HttpClient) { 
   }
@@ -39,6 +38,8 @@ export class MyAuthService {
   }
 
   getClaims() {
+    this.getIdToken();
+    this.getAccesstoken();
     this.identityClaim = this.oauthService.getIdentityClaims();
     return this.identityClaim ? this.identityClaim : null;
   }
