@@ -14,6 +14,10 @@ export class MyAuthService {
   user: string;
   userSource = new BehaviorSubject<string>("");
   currentUser = this.userSource.asObservable();
+  userGroups: string[] = [];
+  userGroupsSource = new BehaviorSubject<string[]>([]);
+  currentUserGroups = this.userGroupsSource.asObservable();
+  
 
   constructor(private oauthService: OAuthService, private http: HttpClient) { 
   }
@@ -40,9 +44,18 @@ export class MyAuthService {
   }
 
   getUser() {
-    this.http.get('https://localhost:44316/api/ADInfo/maid.sabanovic@gws.ms', {responseType: 'text'}).subscribe(user => {
+    this.identityClaim = this.oauthService.getIdentityClaims();
+    this.http.get('https://localhost:44316/api/ADInfo/GetFullName/'+ this.identityClaim.upn, {responseType: 'text'}).subscribe(user => {
       this.user = user;
       this.userSource.next(this.user);
+    });
+  }
+
+  getUserGroups() {
+    this.identityClaim = this.oauthService.getIdentityClaims();
+    this.http.get<[]>('https://localhost:44316/api/ADInfo/GetUserGroups/'+ this.identityClaim.upn).subscribe(userGroups => {
+      this.userGroups = userGroups;
+      this.userGroupsSource.next(this.userGroups);
     });
   }
 

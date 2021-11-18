@@ -12,12 +12,15 @@ import { ItemService } from './item.service';
 
 export class ItemsComponent implements OnInit {
   fullName: string = '';
+  userGroups: string[] = [];
   subscription: Subscription;
+  subscription2: Subscription;
 
   constructor(private router: Router, private myAuthService: MyAuthService) { }
 
   ngOnInit(): void {
     this.myAuthService.getUser();
+    this.myAuthService.getUserGroups();
     this.subscribing();
   }
 
@@ -25,6 +28,10 @@ export class ItemsComponent implements OnInit {
     this.subscription = this.myAuthService.currentUser.subscribe((user) => {
       this.fullName = user;
     });
+
+    this.subscription2 = this.myAuthService.currentUserGroups.subscribe((userGroups) => {
+      this.userGroups = userGroups;
+    })
   }
 
   logout() {

@@ -39,7 +39,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     NgxBootstrapConfirmModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: ['https://localhost:44316/api/TodoItems', 'https://localhost:44316/api/ADInfo'],
+        allowedUrls: ['https://localhost:44316/api/TodoItems', 'https://localhost:44316/api/ADInfo', 'https://localhost:44316/api/ADInfo/GetFullName', 'https://localhost:44316/api/ADInfo/GetUserGroups'],
         sendAccessToken: true
       }
     })
