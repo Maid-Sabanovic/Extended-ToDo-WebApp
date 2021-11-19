@@ -23,7 +23,8 @@ export class GroupGuardService implements CanActivateChild, CanActivate{
     if (this.isPresent){
       return true;
     } else {
-      return this.router.navigate(['todolist']);
+      this.router.navigate(['todolist']);
+      return false;
     }
   }
 
