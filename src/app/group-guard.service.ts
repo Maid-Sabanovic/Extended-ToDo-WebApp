@@ -19,7 +19,7 @@ export class GroupGuardService implements CanActivateChild, CanActivate{
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    this.isPresent = this.userGroups.some(x => x === 'GWS-MA');
+    this.isPresent = this.userGroups.some(x => x === route.data.group);
     if (this.isPresent){
       return true;
     } else {

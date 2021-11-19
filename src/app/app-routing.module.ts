@@ -10,9 +10,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 const routes: Routes = [
   {path: '', redirectTo: 'welcome', pathMatch: 'full'},
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'todolist', canActivate: [AuthGuardService], canActivateChild: [GroupGuardService] , component: ItemsComponent,children: [
-      { path: 'new', component: ItemAddComponent},
-      { path: ':id', component: ItemDetailComponent},
+  {path: 'todolist', canActivate: [AuthGuardService], component: ItemsComponent,children: [
+      { path: 'new', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemAddComponent},
+      { path: ':id', canActivate: [GroupGuardService], data:{group: 'GWS-Test'}, component: ItemDetailComponent},
       { path: ':id/edit', component: ItemAddComponent},
   ]},
 ];
