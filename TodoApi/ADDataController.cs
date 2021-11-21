@@ -43,6 +43,7 @@ namespace TodoApi
         }
 
         [HttpGet("GetUserGroups/{upnOrSam}")]
+
         public List<string> GetUserGroups(string upnOrSam)
         {
             var response = new HttpResponseMessage();
