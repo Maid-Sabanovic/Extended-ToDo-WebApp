@@ -12,6 +12,8 @@ export class WelcomeComponent implements OnInit {
   constructor(private router: Router, private myAuthService: MyAuthService) { }
 
   ngOnInit(): void {
+    this.myAuthService.getClaims();
+    console.log(this.myAuthService.accesstoken);
   }
 
   login() {
@@ -24,5 +26,9 @@ export class WelcomeComponent implements OnInit {
 
   todolist(){
     this.router.navigate(['/todolist']);
+  }
+
+  search(){
+    this.router.navigate(['/search']);
   }
 }
