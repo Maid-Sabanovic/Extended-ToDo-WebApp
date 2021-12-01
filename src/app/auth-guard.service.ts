@@ -10,7 +10,7 @@ export class AuthGuardService implements CanActivate, CanActivateChild {
 
   constructor(private myAuthService: MyAuthService, private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-      if(this.myAuthService.idToken !== '') {
+      if(this.myAuthService.getClaims()) {
         return true;
       } else {
         this.router.navigate(['/welcome']);
