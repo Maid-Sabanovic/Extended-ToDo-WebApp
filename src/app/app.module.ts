@@ -19,6 +19,8 @@ import { MyAuthService } from './my-auth.service';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AuthGuardService } from './auth-guard.service';
 import { GroupGuardService } from './group-guard.service';
+import { SearchComponent } from './search/search.component';
+import { ItemSearchService } from './items/item-search.service';
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import { GroupGuardService } from './group-guard.service';
     ItemAddComponent,
     ItemComponent,
     WelcomeComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,7 @@ import { GroupGuardService } from './group-guard.service';
       }
     })
   ],
-  providers: [ItemService, MyAuthService, AuthGuardService, GroupGuardService, {
+  providers: [ItemService, ItemSearchService, MyAuthService, AuthGuardService, GroupGuardService, {
 
     provide: HTTP_INTERCEPTORS,
 
