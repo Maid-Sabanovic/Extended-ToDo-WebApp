@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 mt-3 mx-auto">
+            <form class="form-inline my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
+                <div class="input-group">
+                    <input class="form-control me-2" type="search" name="search" ngModel placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success input-group-text shadow-none" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <ng-template [ngIf]="searchedItems.length == 0" [ngIfElse]="show">
+                <h3 class="text-center center mt-3">
+                    Welche Items suchen Sie?
+                </h3>
+            </ng-template>
+            <ng-template #show>
+                <div class="mt-4">
+                    <header *ngIf="searchedItems.length > 0">
+                        <h3 class="text-center center">Search Result list</h3>
+                        <p class="text-center center">Sie suchten nach: "{{searchString}}" </p>
+                        <p class="text-center center" *ngIf="searchString.length == 0">Es werden <strong>alle</strong> ToDoItems angezeigt!</p>
+                    </header>
+                    <div class="card" *ngFor="let item of searchedItems">
+                        <div class="row" *ngIf="searchedItems.length > 0">
+                            <div>
+                                <div class="d-flex flex-column">
+                                    <h4>Description: {{item.description}}</h4>
+                                    <p>Completed: {{item.isComplete}}</p>
+                                    <p>ID: {{item.id}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
