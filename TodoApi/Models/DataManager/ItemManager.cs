@@ -22,6 +22,18 @@ namespace TodoApi.Models.DataManager
             return await _todoContext.TodoItems.ToListAsync();
         }
 
+        public async Task<IEnumerable<TodoItem>> Search(string desc)
+        {
+            IQueryable<TodoItem> query = _todoContext.TodoItems;
+
+            if (!string.IsNullOrEmpty(desc))
+            {
+                query = query.Where(item => item.Description.Contains(desc));
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<TodoItem> Get(long id)
         {
             return await _todoContext.TodoItems.FirstOrDefaultAsync(item => item.Id == id);
@@ -47,7 +59,6 @@ namespace TodoApi.Models.DataManager
             _todoContext.TodoItems.Remove(entity);
             _todoContext.SaveChanges();
         }
-
 
         
     }

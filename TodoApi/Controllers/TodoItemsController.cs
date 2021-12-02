@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models.Repository;
@@ -24,6 +25,27 @@ namespace TodoApi.Controllers
         {
             Task<IEnumerable<TodoItem>> task = _dataRepository.GetAll();
             return Ok(await task);
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<TodoItem>>> Search(string desc)
+        {
+            try
+            {
+                var result = await _dataRepository.Search(desc);
+
+                //Check if at least 1 Searchresult
+                if (result.Any())
+                {
+                    return Ok(result);
+                }
+
+                return NotFound();
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from database");
+            }
         }
 
         // GET: api/TodoItems/5
