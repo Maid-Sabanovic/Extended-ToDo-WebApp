@@ -20,9 +20,6 @@ export class SearchComponent implements OnInit {
   constructor(private router: Router, private itemService: ItemService, public itemSearchService: ItemSearchService, private myAuthService: MyAuthService) { }
 
   ngOnInit(): void {
-    this.myAuthService.getClaims();
-    console.log("Access Token: " + this.myAuthService.accesstoken);
-    console.log("ID Token: " + this.myAuthService.idToken);
   }
 
   onSubmit(f: NgForm) {

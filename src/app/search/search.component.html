@@ -1,12 +1,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-7 mt-3 mx-auto">
-            <form class="form-inline my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
-                <div class="input-group">
+            <form class="d-flex my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
                     <input class="form-control me-2" type="search" name="search" ngModel placeholder="Search"
                         aria-label="Search">
                     <button class="btn btn-outline-success input-group-text shadow-none" type="submit"><i class="bi bi-search me-2"></i>Search</button>
-                </div>
             </form>
         </div>
     </div>

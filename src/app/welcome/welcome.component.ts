@@ -12,8 +12,6 @@ export class WelcomeComponent implements OnInit {
   constructor(private router: Router, private myAuthService: MyAuthService) { }
 
   ngOnInit(): void {
-    this.myAuthService.getClaims();
-    console.log(this.myAuthService.accesstoken);
   }
 
   login() {
