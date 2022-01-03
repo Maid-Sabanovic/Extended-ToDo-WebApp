@@ -16,6 +16,7 @@ export class SearchComponent implements OnInit {
 
   searchedItems: Item[] = [];
   searchString: string;
+  loadingSpinner = true;
 
   constructor(private router: Router, private itemService: ItemService, public itemSearchService: ItemSearchService, private myAuthService: MyAuthService) { }
 
@@ -23,6 +24,10 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
+    
+    setTimeout(() => {
+      this.loadingSpinner = false;
+    }, 3000);
     this.searchString = f.value.search;
 
     if(this.searchString.length > 0){
