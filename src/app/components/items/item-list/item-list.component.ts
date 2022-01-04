@@ -1,9 +1,9 @@
 import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Component, DoCheck, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
-import { MyAuthService } from 'src/app/my-auth.service';
 import { Item } from '../item.model';
-import { ItemService } from '../item.service';
+import { MyAuthService } from 'src/app/_services/my-auth.service';
+import { ItemService } from 'src/app/_services/item.service';
 
 @Component({
   selector: 'app-item-list',

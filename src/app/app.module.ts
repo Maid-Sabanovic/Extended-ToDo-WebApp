@@ -4,24 +4,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { ItemsComponent } from './items/items.component';
-import { ItemDetailComponent } from './items/item-detail/item-detail.component';
-import { ItemListComponent } from './items/item-list/item-list.component';
-import { ItemService } from './items/item.service';
-import { HeaderComponent } from './header/header.component';
+import { ItemsComponent } from './components/items/items.component';
+import { ItemDetailComponent } from './components/items/item-detail/item-detail.component';
+import { ItemListComponent } from './components/items/item-list/item-list.component';
+import { ItemService } from './_services/item.service';
+import { HeaderComponent } from './components/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ItemAddComponent } from './items/item-add/item-add.component';
-import { ItemComponent } from './items/item-list/item/item.component';
+
 import { NgxBootstrapConfirmModule } from 'ngx-bootstrap-confirm';
-import { HttpErrorInterceptorService } from './http-error-interceptor.service';
+import { HttpErrorInterceptorService } from './_interceptor/http-error-interceptor.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { MyAuthService } from './my-auth.service';
-import { WelcomeComponent } from './welcome/welcome.component';
-import { AuthGuardService } from './auth-guard.service';
-import { GroupGuardService } from './group-guard.service';
-import { SearchComponent } from './search/search.component';
-import { ItemSearchService } from './items/item-search.service';
+import { MyAuthService } from './_services/my-auth.service';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { AuthGuardService } from './_guards/auth-guard.service';
+import { GroupGuardService } from './_guards/group-guard.service';
+import { SearchComponent } from './components/search/search.component';
+import { ItemSearchService } from './_services/item-search.service';
 import { DataTablesModule } from 'angular-datatables';
+import { ItemAddComponent } from './components/items/item-add/item-add.component';
+import { ItemComponent } from './components/items/item-list/item/item.component';
 
 
 @NgModule({
