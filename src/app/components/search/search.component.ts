@@ -28,38 +28,42 @@ export class SearchComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
-      lengthMenu: [5,15,25],
+      lengthMenu: [5, 15, 25],
       processing: true,
       dom: 'Bfrtip',
-	 buttons: {
-      buttons: [
-            { extend: 'excel', className: 'btn btn-outline-success mb-3'},
-            { extend: 'csv', className: 'btn btn-outline-success mb-3' }
-               ],
-       dom: {
-		  button: {
-		  className: 'btn'
-	         }
-       }
-     }
+      buttons: {
+        buttons: [
+          { extend: 'excel', className: 'btn btn-outline-success mb-3' },
+          { extend: 'csv', className: 'btn btn-outline-success mb-3' }
+        ],
+        dom: {
+          button: {
+            className: 'btn'
+          }
+        }
+      }
     }
   }
 
   onSubmit(f: NgForm) {
-    
+
     setTimeout(() => {
       this.loadingSpinner = false;
     }, 3000);
     this.searchString = f.value.search;
+    
+    if(this.searchString == null || this.searchString == undefined){
+      this.searchString = '';
+    }
 
-    if(this.searchString.length > 0){
+    if (this.searchString.length == 0) {
+      this.itemService.currentItems.subscribe(Response => {
+        this.searchedItems = Response;
+      });
+    } else if (this.searchString.length > 0) {
       this.itemSearchService.search(this.searchString);
       f.resetForm();
       this.itemSearchService.currentSearchedItems.subscribe(Response => {
-        this.searchedItems = Response;
-      });
-    } else {
-      this.itemService.currentItems.subscribe(Response => {
         this.searchedItems = Response;
       });
     }
