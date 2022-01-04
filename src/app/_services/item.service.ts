@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OAuthService } from "angular-oauth2-oidc";
 import { BehaviorSubject, Observable, } from "rxjs";
-import { Item } from "./item.model";
+import { Item } from "../components/items/item.model";
 
 const APIURL = 'https://localhost:44316/api/TodoItems';
 

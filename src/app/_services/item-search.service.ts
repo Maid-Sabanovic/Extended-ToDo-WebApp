@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Item } from './item.model';
+import { Item } from '../components/items/item.model';
 import { ItemService } from './item.service';
 
 const APIURL = 'https://localhost:44316/api/TodoItems/search?desc=';

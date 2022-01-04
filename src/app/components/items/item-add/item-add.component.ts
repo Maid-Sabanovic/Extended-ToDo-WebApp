@@ -2,8 +2,8 @@ import { Component, OnInit, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, Params, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ItemService } from 'src/app/_services/item.service';
 import { Item } from '../item.model';
-import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-item-add',

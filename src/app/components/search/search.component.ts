@@ -3,10 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ItemSearchService } from '../items/item-search.service';
+import { ItemSearchService } from '../../_services/item-search.service';
+import { ItemService } from '../../_services/item.service';
+import { MyAuthService } from '../../_services/my-auth.service';
 import { Item } from '../items/item.model';
-import { ItemService } from '../items/item.service';
-import { MyAuthService } from '../my-auth.service';
 
 
 @Component({

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MyAuthService } from '../my-auth.service';
-import { ItemService } from './item.service';
+import { MyAuthService } from 'src/app/_services/my-auth.service';
 
 @Component({
   selector: 'app-items',

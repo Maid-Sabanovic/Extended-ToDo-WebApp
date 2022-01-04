@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Params, Router } from '@angular/router';
 import { NgxBootstrapConfirmService } from 'ngx-bootstrap-confirm';
 import { Subscription } from 'rxjs';
+import { ItemService } from 'src/app/_services/item.service';
 import { Item } from '../item.model';
-import { ItemService } from '../item.service';
 
 @Component({
   selector: 'app-item-detail',
