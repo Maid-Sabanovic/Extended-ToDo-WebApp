@@ -21,6 +21,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { GroupGuardService } from './group-guard.service';
 import { SearchComponent } from './search/search.component';
 import { ItemSearchService } from './items/item-search.service';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { ItemSearchService } from './items/item-search.service';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    DataTablesModule,
     ReactiveFormsModule,
     NgxBootstrapConfirmModule,
     OAuthModule.forRoot({
