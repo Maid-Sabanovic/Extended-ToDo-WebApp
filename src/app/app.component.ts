@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
-import { authConfig } from './sso.config';
+import { authConfig } from './constants/sso.config';
 
 @Component({
   selector: 'app-root',
