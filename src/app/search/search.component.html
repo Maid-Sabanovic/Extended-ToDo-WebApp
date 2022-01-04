@@ -2,9 +2,10 @@
     <div class="row">
         <div class="col-md-7 mt-3 mx-auto">
             <form class="d-flex my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
-                    <input class="form-control me-2" type="search" name="search" ngModel placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-outline-success input-group-text shadow-none" type="submit"><i class="bi bi-search me-2"></i>Search</button>
+                <input class="form-control me-2" type="search" name="search" ngModel placeholder="Search"
+                    aria-label="Search">
+                <button class="btn btn-outline-primary input-group-text shadow-none" type="submit"><i
+                        class="bi bi-search me-2"></i>Search</button>
             </form>
         </div>
     </div>
@@ -19,28 +20,37 @@
                 <div class="mt-4">
                     <header *ngIf="searchedItems.length > 0">
                         <p class="text-center center">Sie suchten nach: "{{searchString}}" </p>
-                        <p class="text-center center" *ngIf="searchString.length == 0">Es werden <strong>alle</strong> ToDoItems angezeigt!</p>
+                        <p class="text-center center" *ngIf="searchString.length == 0">Es werden <strong>alle</strong>
+                            ToDoItems angezeigt!</p>
                     </header>
                     <div *ngIf="this.loadingSpinner == true" class="text-center">
                         <h3>Einen Moment bitte</h3>
                         <div class="spinner-border" role="status">
-                          <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">Loading...</span>
                         </div>
-                      </div>
-                      <div *ngIf="this.loadingSpinner == false">
+                    </div>
+                    <div *ngIf="this.loadingSpinner == false">
                         <h3 class="text-center center">Search Result</h3>
-                        <div class="card" *ngFor="let item of searchedItems">
-                            <div class="row" *ngIf="searchedItems.length > 0">
-                                <div>
-                                    <div class="d-flex flex-column">
-                                        <h4>Description: {{item.description}}</h4>
-                                        <p>Completed: {{item.isComplete}}</p>
-                                        <p>ID: {{item.id}}</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="card-body">
+                            <h4>Export to: </h4>
+                            <table class="table table-bordered table-striped table-hover row-border hover" datatable [dtOptions]="dtOptions">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Description</th>
+                                        <th>Completed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of searchedItems">
+                                        <td>{{ item.id }}</td>
+                                        <td>{{ item.description }}</td>
+                                        <td>{{ item.isComplete }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </ng-template>
         </div>
