@@ -12,26 +12,24 @@ import { Item } from '../item.model';
 })
 export class ItemDetailComponent implements OnInit {
 
-  //Zum Anzeigen der Details im HTML File
   item: Item;
-
-  //Zum Speichern der params[id]
   id: number;
   subscription: Subscription = new Subscription;
 
-
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private router: Router, private ngxBootstrapConfirmService: NgxBootstrapConfirmService) {
-
+  constructor(private itemService: ItemService, private route: ActivatedRoute, 
+    private router: Router, private ngxBootstrapConfirmService: NgxBootstrapConfirmService) {
   }
 
   ngOnInit(): void {
     this.subscribing();
   }
 
+  // Method to navigate to the edit route
   onEditItem(): void {
     this.router.navigate(['edit'], { relativeTo: this.route });
   }
 
+  //Method to ensure that user wants to delete item
   onDeleteItem() {
     let options = {
       title: 'Are you sure you want to delete this Item?',
@@ -46,6 +44,7 @@ export class ItemDetailComponent implements OnInit {
     });
   }
 
+  //Method to get the id of route params and get the item of itemservice
   subscribing() {
     this.route.params.subscribe(
       (params: Params) => {

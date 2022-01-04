@@ -10,6 +10,7 @@ import { MyAuthService } from 'src/app/_services/my-auth.service';
 })
 
 export class ItemsComponent implements OnInit {
+  // Variable to display the name of user in items.component.html
   fullName: string = '';
   userGroups: string[] = [];
   subscription: Subscription;
@@ -17,6 +18,7 @@ export class ItemsComponent implements OnInit {
 
   constructor(private router: Router, private myAuthService: MyAuthService) { }
 
+  // Getting user and usergroups 
   ngOnInit(): void {
     this.myAuthService.getUser();
     this.myAuthService.getUserGroups();

@@ -14,10 +14,12 @@ export class WelcomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Method for userlogin
   login() {
     this.myAuthService.login();
   }
 
+  // Method to check if user is logged in
   getClaims() {
     return this.myAuthService.getClaims();
   }

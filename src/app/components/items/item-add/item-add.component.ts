@@ -14,7 +14,12 @@ export class ItemAddComponent implements OnInit {
 
   id: number = 0;
   subscription: Subscription = new Subscription;
+
+  /*
+  * variable used to switch between 'item-add' and 'item-edit' component
+  */
   editMode = false;
+
   itemForm: FormGroup;
   index: number;
   item: Item;
@@ -26,6 +31,7 @@ export class ItemAddComponent implements OnInit {
     this.subscribing();
   }
 
+  // Method to get the item-id out of the url
   subscribing() {
     this.route.params.subscribe(
       (params: Params) => {
@@ -36,6 +42,7 @@ export class ItemAddComponent implements OnInit {
     );
   }
 
+  //Method to either add or update item depending on the editmode 
   onSubmit() {
     if (this.editMode) {
       this.updateItem(this.itemForm.value);
@@ -45,38 +52,51 @@ export class ItemAddComponent implements OnInit {
     this.onCancel();
   }
 
+  // Method to navigate to the todolist
   onCancel() {
     this.router.navigate(['/todolist'], { relativeTo: this.route });
   }
 
+  // Method to send new item data to itemservice
   addItem(item: Item) {
     this.itemService.addItem(item.description, item.isComplete);
   }
 
+  // Method to send the updated data to itemservice
   updateItem(item: Item) {
     this.itemService.updateItem(this.id, item);
   }
 
+  //Method to reset the form depending on the edit mode
   private initForm() {
     let itemId;
     let itemDescription;
     let itemIsComplete;
 
+    /*
+    * If editmode is true then retrieve item from currentItems[] in itemservice
+    * with same id in the route params
+    */
     if (this.editMode) {
       this.subscription = this.itemService.currentItems.subscribe((items) => {
         this.item = items.find(specificItem => specificItem.id === this.id);
       });
 
+      // Fill the input fields of the form with the fetched data
       itemId = this.item.id;
       itemDescription = this.item.description;
       itemIsComplete = this.item.isComplete;
 
+      //If editmode is false then set input fields empty
     } else {
       itemId = itemId;
       itemDescription = '';
       itemIsComplete = false;
     }
 
+    /*
+    * Binding the input fields from html form to local variables using formcontrolname property
+    */
     this.itemForm = new FormGroup({
       id: new FormControl(itemId, Validators.required),
       description: new FormControl(itemDescription, Validators.required),

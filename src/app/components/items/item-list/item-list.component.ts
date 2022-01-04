@@ -21,6 +21,7 @@ export class ItemListComponent implements OnInit {
     this.subscribing();
   }
 
+  // Method to navigate to the new item route
   onNewItem() {
     this.router.navigate(['/todolist/new']);
   }

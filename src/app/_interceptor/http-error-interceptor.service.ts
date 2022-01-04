@@ -16,6 +16,10 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
 
   constructor() { }
 
+  /*
+  * Method for catching any component-wide error and displyaing error code to user with popup
+  * Used in app.module in the providers section
+  */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request)
 

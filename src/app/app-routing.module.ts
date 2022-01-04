@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: 'todolist', canActivate: [AuthGuardService], component: ItemsComponent,children: [
       { path: 'new', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemAddComponent},
       { path: ':id', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemDetailComponent},
-      { path: ':id/edit', component: ItemAddComponent},
+      { path: ':id/edit', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemAddComponent},
   ]},
 ];
 

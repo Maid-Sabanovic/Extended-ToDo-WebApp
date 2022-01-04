@@ -9,19 +9,22 @@ const APIURL = 'https://localhost:44316/api/TodoItems';
 
 @Injectable()
 export class ItemService {
-    //Behaviour Subject hält den Value der mit allen Komponenten geteilt wird
-    private _itemsSource = new BehaviorSubject<Item[]>([]);
 
-    //Komponenten subscriben auf currentItems und bekommen dass BehaviorSubject ohne die Funktionalität den Value ändern zu können
+    /*
+    * Holds the data for the itemlist
+    * Components can subscribe to the observable to get the data
+    */
+    private _itemsSource = new BehaviorSubject<Item[]>([]);
     currentItems = this._itemsSource.asObservable();
 
-    constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private oauthService: OAuthService) {
+    constructor(private http: HttpClient, private route: ActivatedRoute, 
+        private router: Router, private oauthService: OAuthService) {
 
-        //CurrentItems bekommt hier seinen ersten Value
-            this.getItems();
+        //Retrieve items
+        this.getItems();
     }
 
-    // Fetch Items von Endpoint und currentItems bekommt das Array
+    // Method to call 'get' endpoint from API and assigning response to behavioursubject
     getItems(): void {
         this.http.get<Item[]>(APIURL).subscribe(Response => {
             this._itemsSource.next(Response);
@@ -29,6 +32,7 @@ export class ItemService {
 
     }
 
+    // Method to add (post) an item to the database 
     addItem(description: string, isComplete: boolean) {
         var item = { description: description, isComplete: isComplete };
         this.http.post(APIURL, item).subscribe(Response => {
@@ -37,6 +41,7 @@ export class ItemService {
         this.navigateHome();
     }
 
+    // Method to delete an item from the database 
     deleteItem(id: number): void {
         this.http.delete<Item>(APIURL + '/' + id).subscribe(Response => {
             this.getItems();
@@ -44,6 +49,7 @@ export class ItemService {
         this.navigateHome();
     }
 
+    // Method to update the selected item 
     updateItem(id: number, item: Item) {
         this.http.put<Item>(APIURL + '/' + id, item).subscribe(Response => {
             this.getItems();
@@ -51,14 +57,9 @@ export class ItemService {
         this.navigateHome();
     }
 
+    //Method for navigating to the home component
     navigateHome(): void {
         this.router.navigate(['/todolist'], { relativeTo: this.route });
     }
-
-    getClaims() {
-        let claims: any = this.oauthService.getIdentityClaims();
-        return claims ? claims : null;
-    }
-
 
 }
