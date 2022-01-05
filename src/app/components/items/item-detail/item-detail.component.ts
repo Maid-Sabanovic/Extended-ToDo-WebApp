@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Params, Router } from '@angular/router';
-import { NgxBootstrapConfirmService } from 'ngx-bootstrap-confirm';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import * as bootstrap from 'bootstrap';
+import { Modal } from 'bootstrap';
 import { Subscription } from 'rxjs';
 import { ItemService } from 'src/app/_services/item.service';
 import { Item } from '../item.model';
@@ -12,12 +13,15 @@ import { Item } from '../item.model';
 })
 export class ItemDetailComponent implements OnInit {
 
+  body:string = 'Are you sure you want to delete this item?'
+  testModal: Modal | undefined;
+
   item: Item;
   id: number;
   subscription: Subscription = new Subscription;
 
   constructor(private itemService: ItemService, private route: ActivatedRoute, 
-    private router: Router, private ngxBootstrapConfirmService: NgxBootstrapConfirmService) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -31,17 +35,7 @@ export class ItemDetailComponent implements OnInit {
 
   //Method to ensure that user wants to delete item
   onDeleteItem() {
-    let options = {
-      title: 'Are you sure you want to delete this Item?',
-      confirmLabel: 'Yes',
-      declineLabel: 'No'
-    }
-    this.ngxBootstrapConfirmService.confirm(options).then((res: boolean) => {
-      if (res) {
-        this.itemService.deleteItem(this.id);
-      } else {
-      }
-    });
+    this.itemService.deleteItem(this.id);
   }
 
   //Method to get the id of route params and get the item of itemservice
@@ -54,6 +48,19 @@ export class ItemDetailComponent implements OnInit {
         });
       }
     );
+  }
+
+  
+  openModal(){
+    this.testModal = new bootstrap.Modal(document.getElementById('testModal'), {
+      keyboard: false
+    })
+    this.testModal?.show();
+  }
+
+  save() {
+    this.itemService.deleteItem(this.id);
+    this.testModal?.toggle();
   }
 
 }
