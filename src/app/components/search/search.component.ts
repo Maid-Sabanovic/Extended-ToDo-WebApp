@@ -82,6 +82,9 @@ export class SearchComponent implements OnInit {
         this.searchedItems = Response;
       });
     }
+
+    //Seeting loadingSpinner back to true for every query
+    this.loadingSpinner = true;
   }
 
 }
