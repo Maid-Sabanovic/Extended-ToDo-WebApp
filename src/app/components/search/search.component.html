@@ -1,4 +1,20 @@
 <div class="container">
+    <div class="modal fade" tabindex="=-1" #testModal id="testModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Check:</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{body}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-7 mt-3 mx-auto">
             <form class="d-flex my-2 my-lg-0" #f="ngForm" (ngSubmit)="onSubmit(f)">
@@ -30,26 +46,44 @@
                         </div>
                     </div>
                     <div *ngIf="this.loadingSpinner == false">
-                        <h3 class="text-center center">Search Result</h3>
-                        <div class="card-body">
-                            <h4>Export as: </h4>
-                            <table class="table table-bordered table-striped table-hover row-border hover" datatable [dtOptions]="dtOptions">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Description</th>
-                                        <th>Completed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of searchedItems">
-                                        <td>{{ item.id }}</td>
-                                        <td>{{ item.description }}</td>
-                                        <td>{{ item.isComplete }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div *ngIf="isError == false">
+                            <h3 class="text-center center">Search Result</h3>
+                            <div class="card-body">
+                                <h4>Export as: </h4>
+                                <table class="table table-bordered table-striped table-hover row-border hover" datatable
+                                    [dtOptions]="dtOptions">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Description</th>
+                                            <th>Completed</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of searchedItems">
+                                            <td>{{ item.id }}</td>
+                                            <td>{{ item.description }}</td>
+                                            <td>{{ item.isComplete }}</td>
+                                            <td>
+                                                <div class="btn-toolbar justify-content-center" role="toolbar"
+                                                    aria-label="Toolbar with button groups">
+                                                    <div class="btn-group me-2" role="group" aria-label="First group">
+                                                        <button type="button"
+                                                            class="btn btn-outline-success">Edit</button>
+                                                    </div>
+                                                    <div class="btn-group" role="group" aria-label="Second group">
+                                                        <button type="button"
+                                                            class="btn btn-outline-danger">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </ng-template>
