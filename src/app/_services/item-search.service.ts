@@ -23,8 +23,20 @@ export class ItemSearchService {
 
   // Method to call the endpoint and assign response data to the observable
   search(q: string) {
-    this.http.get<Item[]>(APIURL + q).subscribe(Response => {
-      this._itemsSearchSource.next(Response);
-    })
+    let promise = new Promise<void>((resolve, reject) => {
+      this.http.get<Item[]>(APIURL + q)
+        .toPromise()
+        .then(
+          Response => {
+            this._itemsSearchSource.next(Response);
+            resolve();
+          },
+          msg => {
+            reject(msg);
+          }
+        );
+      });
+    return promise;
   }
+  
 }
