@@ -1,17 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
-import { filter } from 'jszip';
-import { Subject, Subscription } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { ItemSearchService } from '../../_services/item-search.service';
-import { ItemService } from '../../_services/item.service';
-import { MyAuthService } from '../../_services/my-auth.service';
 import { Item } from '../items/item.model';
-import { take } from 'rxjs/operators';
-import { HttpErrorInterceptorService } from 'src/app/_interceptor/http-error-interceptor.service';
+
 
 
 @Component({
@@ -21,12 +14,23 @@ import { HttpErrorInterceptorService } from 'src/app/_interceptor/http-error-int
 })
 export class SearchComponent implements OnInit {
 
+  //variables used for the searching
   searchedItems: Item[] = [];
   searchString = '';
   searchCompleted: number;
+
+  // used for configuring the datatable
+  dtOptions: any;
+
+  //variables used for the bootstrap5 modal
   body: string;
   testModal: Modal | undefined;
+
+  //variable used to check if error occured
   isError = false;
+  loadingSpinner = true;
+
+  //variables used for the html form
   itemDescription = '';
   itemIsComplete = 0;
   itemForm = new FormGroup({
@@ -34,18 +38,11 @@ export class SearchComponent implements OnInit {
     isComplete: new FormControl(this.itemIsComplete, Validators.required)
   });
 
-  // variable for letting the user know that data is beeing fetched
-  loadingSpinner = true;
-
-  // used for configuring the datatable
-  dtOptions: any;
-
-  constructor(private router: Router, private itemService: ItemService,
-    public itemSearchService: ItemSearchService) {
+  constructor( public itemSearchService: ItemSearchService) {
   }
 
   ngOnInit(): void {
-    //configuring the settings for datatables with export buttons
+    //configuring the settings for the datatable
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -126,11 +123,9 @@ export class SearchComponent implements OnInit {
 
     //Resets the search field completely, and the dropdown resets to previous value[0]
     this.itemForm.reset({ isComplete: 0 });
-
-    
   }
 
-  //Method to open the modal, this works
+  //Method to open the modal
   openModal() {
     this.testModal = new bootstrap.Modal(document.getElementById('testModal'), {
       keyboard: false
