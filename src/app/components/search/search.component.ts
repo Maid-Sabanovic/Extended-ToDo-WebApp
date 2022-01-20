@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
+import { ItemService } from 'src/app/_services/item.service';
 import { ItemSearchService } from '../../_services/item-search.service';
 import { Item } from '../items/item.model';
 
@@ -22,15 +23,21 @@ export class SearchComponent implements OnInit {
   // used for configuring the datatable
   dtOptions: any;
 
-  //variables used for the bootstrap5 modal
-  body: string;
-  testModal: Modal | undefined;
+  //variables used for the bootstrap5 modals
+  notifyModalBody: string;
+  notifyModal: Modal | undefined;
+
+  editModal: Modal | undefined;
+
+  deleteModalBody: string;
+  deleteModal: Modal | undefined;
+  deleteItem: Item;
 
   //variable used to check if error occured
   isError = false;
   loadingSpinner = true;
 
-  //variables used for the html form
+  //variables used for the search html form
   itemDescription = '';
   itemIsComplete = 0;
   itemForm = new FormGroup({
@@ -38,7 +45,10 @@ export class SearchComponent implements OnInit {
     isComplete: new FormControl(this.itemIsComplete, Validators.required)
   });
 
-  constructor( public itemSearchService: ItemSearchService) {
+  //variables used for the edit item html form inside edit modal
+  editItemForm: FormGroup;
+
+  constructor(public itemSearchService: ItemSearchService, private itemService: ItemService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -68,6 +78,11 @@ export class SearchComponent implements OnInit {
       }
     }
 
+    this.editItemForm = this.fb.group({
+      id: [Number],
+      description: [''],
+      isComplete: [Boolean],
+    });
   }
 
   /*
@@ -90,8 +105,8 @@ export class SearchComponent implements OnInit {
     if (this.searchCompleted == 0) {
       this.isError = true;
       this.loadingSpinner = false;
-      this.body = 'Bitte ein Dropdown-Feld auswählen';
-      this.openModal();
+      this.notifyModalBody = 'Bitte ein Dropdown-Feld auswählen';
+      this.openNotificationModal();
     }
 
     /*
@@ -104,32 +119,85 @@ export class SearchComponent implements OnInit {
 
     //Start the search if there is no error
     if (this.isError == false) {
-      this.itemSearchService.search(this.searchString, this.searchCompleted).then(
-        //success
-        () => {
-          this.itemSearchService.currentSearchedItems.subscribe(Response => {
-            this.searchedItems = Response;
-          });
-        },
-        //error
-        () => {
-          this.isError = true;
-          this.loadingSpinner = false;
-          this.body = 'Suche für \'' + this.searchString + '\' ergab keine Treffer! :(';
-          this.openModal();
-        }
-      );
+      this.fetchTableData();
     }
 
     //Resets the search field completely, and the dropdown resets to previous value[0]
-    this.itemForm.reset({ isComplete: 0 });
+    //this.itemForm.reset({ isComplete: 0 });
   }
 
-  //Method to open the modal
-  openModal() {
-    this.testModal = new bootstrap.Modal(document.getElementById('testModal'), {
+  //fetch TableData
+  fetchTableData() {
+    this.itemSearchService.search(this.searchString, this.searchCompleted).then(
+      //success
+      () => {
+        this.itemSearchService.currentSearchedItems.subscribe(Response => {
+          this.searchedItems = Response;
+        });
+      },
+      //error
+      () => {
+        this.isError = true;
+        this.loadingSpinner = false;
+        this.notifyModalBody = 'Suche für \'' + this.searchString + '\' ergab keine Treffer! :(';
+        this.openNotificationModal();
+      }
+    );
+  }
+
+  //Method to open the notification modal
+  openNotificationModal() {
+    this.notifyModal = new bootstrap.Modal(document.getElementById('notificationModal'), {
       keyboard: false
     })
-    this.testModal?.show();
+    this.notifyModal?.show();
   }
+
+  // Method to open the edit modal
+  openEditModal(targetModal, item: Item) {
+    //fill the fields of itemform with the data of item
+    this.editItemForm.patchValue({
+      id: item.id,
+      description: item.description,
+      isComplete: item.isComplete,
+    });
+    this.editModal = new bootstrap.Modal(document.getElementById('editItemModal'), {
+      keyboard: false
+    });
+    this.editModal.show(targetModal);
+  }
+
+  // Method to open the delete modal
+  openDeleteModal(item){
+    this.deleteModalBody = 'Are you sure you want to delete this item?';
+    this.deleteItem = item;
+    this.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {
+      keyboard: false
+    });
+    this.deleteModal.show();
+  }
+
+  onUpdateItem() {
+    //send PUT request
+    this.itemService.updateItem(this.editItemForm.value.id, this.editItemForm.value);
+    //update the local array so that the datatable updates
+    //change in local array affects the datatable output
+    this.searchedItems.forEach((item) => {
+      if(item.id == this.editItemForm.value.id){
+      item.description = this.editItemForm.value.description;
+      item.isComplete = this.editItemForm.value.isComplete;
+      }
+    })
+    this.editModal.hide();
+  }
+
+  onDeleteItem(){
+    //send DELETE request
+    this.itemService.deleteItem(this.deleteItem.id);
+    //update the local array so that the datatable updates
+    //change in local array affects the datatable output
+    this.searchedItems = this.searchedItems.filter(Response => Response.id != this.deleteItem.id);
+    this.deleteModal.hide();
+  }
+
 }
