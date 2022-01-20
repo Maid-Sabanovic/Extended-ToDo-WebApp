@@ -49,22 +49,24 @@ export class ItemAddComponent implements OnInit {
     } else {
       this.addItem(this.itemForm.value);
     }
-    this.onCancel();
+    this.itemService.navigateTo('/todolist', this.route);
   }
 
   // Method to navigate to the todolist
   onCancel() {
-    this.router.navigate(['/todolist'], { relativeTo: this.route });
+    this.itemService.navigateTo('/todolist', this.route);
   }
 
   // Method to send new item data to itemservice
   addItem(item: Item) {
     this.itemService.addItem(item.description, item.isComplete);
+    this.itemService.navigateTo('/todolist', this.route);
   }
 
   // Method to send the updated data to itemservice
   updateItem(item: Item) {
     this.itemService.updateItem(this.id, item);
+    this.itemService.navigateTo('/todolist', this.route);
   }
 
   //Method to reset the form depending on the edit mode

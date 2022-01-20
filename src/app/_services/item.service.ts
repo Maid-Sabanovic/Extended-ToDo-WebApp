@@ -38,7 +38,6 @@ export class ItemService {
         this.http.post(APIURL, item).subscribe(Response => {
             this.getItems();
         });
-        this.navigateHome();
     }
 
     // Method to delete an item from the database 
@@ -46,7 +45,6 @@ export class ItemService {
         this.http.delete<Item>(APIURL + '/' + id).subscribe(Response => {
             this.getItems();
         });
-        this.navigateHome();
     }
 
     // Method to update the selected item 
@@ -54,12 +52,11 @@ export class ItemService {
         this.http.put<Item>(APIURL + '/' + id, item).subscribe(Response => {
             this.getItems();
         });
-        this.navigateHome();
     }
 
     //Method for navigating to the home component
-    navigateHome(): void {
-        this.router.navigate(['/todolist'], { relativeTo: this.route });
+    navigateTo(path: string, route: ActivatedRoute): void {
+        this.router.navigate([path], { relativeTo: route });
     }
 
 }

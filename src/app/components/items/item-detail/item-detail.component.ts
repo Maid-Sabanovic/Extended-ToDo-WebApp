@@ -30,12 +30,13 @@ export class ItemDetailComponent implements OnInit {
 
   // Method to navigate to the edit route
   onEditItem(): void {
-    this.router.navigate(['edit'], { relativeTo: this.route });
+    this.itemService.navigateTo('edit', this.route);
   }
 
   //Method to ensure that user wants to delete item
   onDeleteItem() {
     this.itemService.deleteItem(this.id);
+    this.itemService.navigateTo('edit', this.route);
   }
 
   //Method to get the id of route params and get the item of itemservice
