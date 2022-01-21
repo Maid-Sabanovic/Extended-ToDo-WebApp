@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { Modal } from 'bootstrap';
+import { Subscription } from 'rxjs';
 import { ItemService } from 'src/app/_services/item.service';
 import { ItemSearchService } from '../../_services/item-search.service';
 import { Item } from '../items/item.model';
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
   searchedItems: Item[] = [];
   searchString = '';
   searchCompleted: number;
+  subscription: Subscription;
 
   // used for configuring the datatable
   dtOptions: any;
@@ -53,30 +55,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     //configuring the settings for the datatable
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 5,
-      lengthMenu: [5, 15, 25],
-      processing: true,
-      columnDefs: [
-        { "width": "5%", "targets": 0 },
-        { "width": "5%", "targets": 2 },
-        { "width": "13%", "targets": 3 }
-      ],
-      dom: 'Bfrtip',
-      buttons: {
-        buttons: [
-          { extend: 'excel', className: 'btn btn-outline-success mb-3' },
-          { extend: 'csv', className: 'btn btn-outline-success mb-3' }
-        ],
-        dom: {
-          button: {
-            className: 'btn'
-          }
-        }
-      }
-    }
+    this.createDataTable();
 
     this.editItemForm = this.fb.group({
       id: [Number],
@@ -90,7 +69,7 @@ export class SearchComponent implements OnInit {
   * Before displaying the data a loading spinner is activated for 3 seconds
   */
   onSubmit() {
-
+    
     //Setting loadingSpinner back to true for every query
     this.loadingSpinner = true;
     this.isError = false;
@@ -131,9 +110,11 @@ export class SearchComponent implements OnInit {
     this.itemSearchService.search(this.searchString, this.searchCompleted).then(
       //success
       () => {
-        this.itemSearchService.currentSearchedItems.subscribe(Response => {
+        this.subscription = this.itemSearchService.currentSearchedItems.subscribe(Response => {
+          console.log(Response);
           this.searchedItems = Response;
         });
+        this.subscription.unsubscribe();
       },
       //error
       () => {
@@ -143,6 +124,7 @@ export class SearchComponent implements OnInit {
         this.openNotificationModal();
       }
     );
+    
   }
 
   //Method to open the notification modal
@@ -168,7 +150,7 @@ export class SearchComponent implements OnInit {
   }
 
   // Method to open the delete modal
-  openDeleteModal(item){
+  openDeleteModal(item) {
     this.deleteModalBody = 'Are you sure you want to delete this item?';
     this.deleteItem = item;
     this.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'), {
@@ -183,21 +165,60 @@ export class SearchComponent implements OnInit {
     //update the local array so that the datatable updates
     //change in local array affects the datatable output
     this.searchedItems.forEach((item) => {
-      if(item.id == this.editItemForm.value.id){
-      item.description = this.editItemForm.value.description;
-      item.isComplete = this.editItemForm.value.isComplete;
+      if (item.id == this.editItemForm.value.id) {
+        item.description = this.editItemForm.value.description;
+        item.isComplete = this.editItemForm.value.isComplete;
       }
     })
     this.editModal.hide();
   }
 
-  onDeleteItem(){
+  onDeleteItem() {
     //send DELETE request
     this.itemService.deleteItem(this.deleteItem.id);
     //update the local array so that the datatable updates
     //change in local array affects the datatable output
     this.searchedItems = this.searchedItems.filter(Response => Response.id != this.deleteItem.id);
     this.deleteModal.hide();
+    this.reloadDataTable();
+  }
+
+  reloadDataTable() {
+    var datatable = $('#dt').DataTable();
+
+    //datatable reloading 
+    datatable.destroy();
+    this.loadingSpinner = true;
+    setTimeout(() => {
+      this.loadingSpinner = false;
+    }, 1000);
+    this.createDataTable();
+  }
+
+  createDataTable() {
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 5,
+      lengthMenu: [5, 15, 25],
+      processing: true,
+      columnDefs: [
+        { "width": "5%", "targets": 0 },
+        { "width": "5%", "targets": 2 },
+        { "width": "13%", "targets": 3 }
+      ],
+      dom: 'Bfrtip',
+      buttons: {
+        buttons: [
+          { extend: 'excel', className: 'btn btn-outline-success mb-3' },
+          { extend: 'csv', className: 'btn btn-outline-success mb-3' }
+        ],
+        dom: {
+          button: {
+            className: 'btn'
+          }
+        }
+      }
+    };
   }
 
 }
