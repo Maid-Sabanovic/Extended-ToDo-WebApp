@@ -28,11 +28,11 @@ namespace TodoApi.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<TodoItem>>> Search(string desc)
+        public async Task<ActionResult<IEnumerable<TodoItem>>> Search(string desc, int completed)
         {
             try
             {
-                var result = await _dataRepository.Search(desc);
+                var result = await _dataRepository.Search(desc, completed);
 
                 //Check if at least 1 Searchresult
                 if (result.Any())

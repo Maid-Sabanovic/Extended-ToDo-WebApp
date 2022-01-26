@@ -7,7 +7,7 @@ namespace TodoApi.Models.Repository
 {
     public interface IDataRepository<TEntity>
     {
-        Task<IEnumerable<TEntity>> Search(string desc);
+        Task<IEnumerable<TEntity>> Search(string desc, int completed);
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> Get(long id);
         void Add(TEntity entity);

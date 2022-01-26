@@ -22,16 +22,44 @@ namespace TodoApi.Models.DataManager
             return await _todoContext.TodoItems.ToListAsync();
         }
 
-        public async Task<IEnumerable<TodoItem>> Search(string desc)
+        public async Task<IEnumerable<TodoItem>> Search(string desc, int completed)
         {
             IQueryable<TodoItem> query = _todoContext.TodoItems;
 
+            //If query description is null or empty string
             if (!string.IsNullOrEmpty(desc))
             {
-                query = query.Where(item => item.Description.Contains(desc));
+                switch (completed)
+                {
+                    case 1:
+                        query = query.Where(item => item.Description.Contains(desc) && item.IsComplete.Equals(false));
+                        break;
+                    case 2:
+                        query = query.Where(item => item.Description.Contains(desc) && item.IsComplete.Equals(true));
+                        break;
+                    case 3:
+                        query = query.Where(item => item.Description.Contains(desc));
+                        break;
+                }
+            }
+            // else if query description is empty
+            else
+            {
+                switch (completed)
+                {
+                    case 1:
+                        query = query.Where(item => item.IsComplete.Equals(false));
+                        break;
+                    case 2:
+                        query = query.Where(item => item.IsComplete.Equals(true));
+                        break;
+                    case 3:
+                        break;
+                }
             }
 
             return await query.ToListAsync();
+
         }
 
         public async Task<TodoItem> Get(long id)
@@ -60,6 +88,6 @@ namespace TodoApi.Models.DataManager
             _todoContext.SaveChanges();
         }
 
-        
+
     }
 }
