@@ -1,0 +1,39 @@
+<div *ngIf="item" class="row">
+    <div class="col-xs-12">
+        <h1>Item ID: {{item.id}}</h1>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Description: {{item.description}}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Is Complete: {{item.isComplete}}</h1>
+      </div>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-primary mt-3 me-3" (click)="onEditItem()">Edit Item</button>
+      <button #modalButton type="button" class="btn btn-danger mt-3 " (click)="openModal()">Delete Item</button>
+    <div class="modal fade" tabindex="=-1" #testModal id="testModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Check:</h5>
+            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>{{body}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="save()">Confirm</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  

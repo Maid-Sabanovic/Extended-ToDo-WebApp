@@ -1,0 +1,10 @@
+<a style="cursor: pointer"
+   [routerLink]="[item.id]"
+   routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="float-start">
+    <h4>Description: {{item.description}}</h4>
+    <p>Completed: {{item.isComplete}}</p>
+    <p>ID: {{item.id}}</p>
+  </div>
+</a>
