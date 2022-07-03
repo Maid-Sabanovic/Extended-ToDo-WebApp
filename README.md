@@ -1,5 +1,17 @@
 # TodoUI
 
+This project is an extended version of my simple todoapp:
+'https://github.com/Maid-Sabanovic/ToDoApp'
+
+It features:
+
+* angular as frontend and client-side rendering
+* REST-API created with .net core 3.1
+* MSSQL-Server database
+* LDAP authentication to a server from a company I worked for
+* angular-datatables with search and custom edit/delete functionality
+* bootstrap framework
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
 
 ## Development server
