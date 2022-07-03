@@ -52,7 +52,7 @@ import { ItemComponent } from './components/items/item-list/item/item.component'
       }
     })
   ],
-  providers: [ItemService, ItemSearchService, MyAuthService, AuthGuardService, GroupGuardService, {
+  providers: [ItemService, ItemSearchService, MyAuthService, AuthGuardService, GroupGuardService, /*{
 
     provide: HTTP_INTERCEPTORS,
 
@@ -60,7 +60,8 @@ import { ItemComponent } from './components/items/item-list/item/item.component'
 
     multi: true
 
-  }],
+  }*/
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

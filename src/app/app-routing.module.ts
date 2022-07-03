@@ -13,9 +13,9 @@ const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},
   {path: 'search', canActivate: [AuthGuardService], component: SearchComponent},
   {path: 'todolist', canActivate: [AuthGuardService], component: ItemsComponent,children: [
-      { path: 'new', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemAddComponent},
-      { path: ':id', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemDetailComponent},
-      { path: ':id/edit', canActivate: [GroupGuardService], data:{group: 'GWS-MA'}, component: ItemAddComponent},
+      { path: 'new', component: ItemAddComponent},
+      { path: ':id',  component: ItemDetailComponent},
+      { path: ':id/edit', component: ItemAddComponent},
   ]},
 ];
 
