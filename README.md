@@ -1,4 +1,4 @@
-# TodoUI
+# Project description
 
 This project is an extended version of my simple todoapp:
 'https://github.com/Maid-Sabanovic/ToDoApp'
