@@ -19,6 +19,5 @@ export class AppComponent {
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.tryLogin();
   }
-  
 
 }
